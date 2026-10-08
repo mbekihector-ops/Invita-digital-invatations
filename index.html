@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="author" content="Philemon Abraham Simkanga">
+  <title>KadiNova — Digital Invitations</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+<header class="nav">
+  <div class="logo"><span>Kadi</span>Nova</div>
+  <nav>
+    <a href="#about">About</a>
+    <a href="#templates">Templates</a>
+    <a href="#how">How it works</a>
+    <a href="#pricing">Pricing</a>
+    <button class="outline" onclick="openBuilder()">Create invitation</button>
+  </nav>
+</header>
+
+<main>
+<section class="hero">
+  <div>
+    <p class="eyebrow">CREATE • INVITE • CELEBRATE</p>
+    <h1>Beautiful digital invitations, made simple.</h1>
+    <p class="lead">Create stylish invitations for weddings, birthdays, graduations and every special moment — then share them instantly.</p>
+    <div class="actions">
+      <button class="primary" onclick="openBuilder()">Create your invitation</button>
+      <a class="secondary" href="#templates">Explore templates</a>
+    </div>
+  </div>
+  <div class="hero-card">
+    <div class="mini-top">YOU'RE INVITED</div>
+    <h2>Sarah & Daniel</h2>
+    <p>Wedding Celebration</p>
+    <div class="line"></div>
+    <strong>Saturday · 4:00 PM</strong>
+    <small>Dar es Salaam, Tanzania</small>
+  </div>
+</section>
+
+
+<section id="about" class="section about-section">
+  <p class="eyebrow">ABOUT KADINOVA</p>
+  <h2>Beautiful invitations for meaningful moments</h2>
+  <div class="about-grid">
+    <div>
+      <p class="lead">KadiNova is a digital invitations platform designed to make creating, sharing and managing invitations simple, elegant and modern.</p>
+      <p>We are building KadiNova for weddings, birthdays, engagements, baby showers, graduations and other special events.</p>
+    </div>
+    <div class="about-card">
+      <span>WEBSITE OWNER</span>
+      <h3>Philemon Abraham Simkanga</h3>
+      <p>KadiNova Digital Invitations & Events</p>
+    </div>
+  </div>
+
+  <div class="contact-card">
+    <div>
+      <span class="contact-label">CONTACT</span>
+      <h3>Get in touch with KadiNova</h3>
+      <p>For general enquiries, partnerships and customer support, use the contact details provided on the official KadiNova website.</p>
+    </div>
+    <div class="contact-placeholder">
+      <strong>Email</strong>
+      <span>Coming soon</span>
+      <strong>Phone / WhatsApp</strong>
+      <span>Coming soon</span>
+    </div>
+  </div>
+</section>
+
+<section id="templates" class="section">
+  <p class="eyebrow">OUR TEMPLATES</p>
+  <h2>Choose a style you love</h2>
+  <div class="grid">
+    <article class="template wedding"><div>WEDDING</div><h3>Elegant Love</h3><button onclick="selectTemplate('Elegant Love')">Use template</button></article>
+    <article class="template birthday"><div>BIRTHDAY</div><h3>Birthday Celebration</h3><button onclick="selectTemplate('Birthday Celebration')">Use template</button></article>
+    <article class="template graduation"><div>GRADUATION</div><h3>Class of 2026</h3><button onclick="selectTemplate('Class of 2026')">Use template</button></article>
+    <article class="template event"><div>EVENT</div><h3>Modern Event</h3><button onclick="selectTemplate('Modern Event')">Use template</button></article>
+  </div>
+</section>
+
+<section id="how" class="section light">
+  <p class="eyebrow">HOW IT WORKS</p>
+  <h2>From idea to invitation in minutes</h2>
+  <div class="steps">
+    <div><b>01</b><h3>Choose</h3><p>Select a beautiful template.</p></div>
+    <div><b>02</b><h3>Customize</h3><p>Add your event details.</p></div>
+    <div><b>03</b><h3>Share</h3><p>Send your invitation digitally.</p></div>
+  </div>
+</section>
+
+<section id="pricing" class="section">
+  <p class="eyebrow">PRICING</p>
+  <h2>Start free, upgrade when you need more</h2>
+  <div class="prices">
+    <div><h3>Free</h3><p class="price">TZS 0</p><p>Basic templates<br>Digital sharing</p><button class="outline">Start free</button></div>
+    <div class="featured"><h3>Premium</h3><p class="price">TZS 5,000+</p><p>Premium designs<br>RSVP features<br>More customization</p><button class="primary" onclick="openBuilder()">Create now</button></div>
+    <div><h3>VIP</h3><p class="price">Custom</p><p>Exclusive designs<br>Advanced features<br>Priority support</p><button class="outline">Contact us</button></div>
+  </div>
+</section>
+</main>
+
+<div id="builder" class="modal">
+  <div class="modal-box">
+    <button class="close" onclick="closeBuilder()">×</button>
+    <p class="eyebrow">INVITATION BUILDER</p>
+    <h2>Create your invitation</h2>
+    <label>Event type
+      <select id="eventType"><option>Wedding</option><option>Birthday</option><option>Graduation</option><option>Engagement</option><option>Other event</option></select>
+    </label>
+    <label>Host / Name <input id="host" placeholder="e.g. Sarah & Daniel"></label>
+    <label>Event date <input id="date" type="date"></label>
+    <label>Location <input id="location" placeholder="e.g. Dar es Salaam"></label>
+    <button class="primary full" onclick="previewInvite()">Preview invitation</button>
+    <div id="preview"></div>
+  </div>
+</div>
+
+<footer>
+  <div class="logo"><span>Kadi</span>Nova</div>
+  <p>Digital invitations for life's special moments.</p>
+  <div class="owner-info">
+    <strong>Website Project Owner</strong>
+    <span>Philemon Abraham Simkanga</span>
+  </div>
+  <small>© 2026 KadiNova. All rights reserved. KadiNova is owned by Philemon Abraham Simkanga. This website is currently a prototype.</small>
+</footer>
+<script src="script.js"></script>
+</body>
+</html>
