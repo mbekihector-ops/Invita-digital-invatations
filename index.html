@@ -1,133 +1,204 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="sw">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="author" content="Philemon Abraham Simkanga">
-  <title>KadiNova — Digital Invitations</title>
-  <link rel="stylesheet" href="style.css">
+  <meta name="theme-color" content="#0b1727">
+  <title>KadiNova | Digital Invitations</title>
+  <style>
+    :root{
+      --navy:#0b1727; --navy2:#101f32; --cream:#f6efe3; --gold:#d7ad62;
+      --pink:#f4a9bb; --ink:#101827; --muted:#b8c2d0; --line:#29394c;
+    }
+    *{box-sizing:border-box}
+    body{margin:0;background:var(--navy);color:#f8f5ef;font-family:Arial,Helvetica,sans-serif}
+    button,select{font:inherit}
+    button{cursor:pointer}
+    .topbar{height:78px;display:flex;align-items:center;justify-content:space-between;padding:12px 24px 12px 300px;border-bottom:1px solid var(--line);gap:16px}
+    .brand-mobile{display:none}
+    .language{display:flex;gap:6px;background:#17263a;padding:5px;border-radius:28px}
+    .language button{border:0;border-radius:24px;padding:10px 15px;background:transparent;color:#fff}
+    .language button.active{background:#f5dba7;color:#142033;font-weight:700}
+    .tools{display:flex;gap:20px;font-size:23px}
+    .layout{display:grid;grid-template-columns:284px minmax(0,1fr);min-height:calc(100vh - 78px)}
+    aside{background:var(--cream);color:var(--ink);padding:20px 16px;display:flex;flex-direction:column;position:fixed;top:0;bottom:0;width:284px}
+    .brand{display:flex;align-items:center;gap:12px;padding:2px 20px 26px}
+    .logo{font-size:36px;color:#b88937}
+    .brand h1{font-family:Georgia,serif;font-size:30px;margin:0}
+    .brand small{display:block;font-size:14px;color:#536071;margin-top:2px}
+    nav{display:grid;gap:8px}
+    nav button{border:0;background:transparent;color:#172033;text-align:left;padding:17px 18px;border-radius:16px;font-size:16px}
+    nav button.active{background:#dfbd78;font-weight:700}
+    .quote{margin:auto 18px 18px;text-align:center;color:#354052;font-family:Georgia,serif;font-style:italic;line-height:1.65;font-size:19px}
+    main{grid-column:2;padding:18px 20px 36px;min-width:0}
+    .hero{min-height:260px;border:1px solid #c9a45f;border-radius:20px;overflow:hidden;position:relative;display:flex;align-items:center;padding:36px 42px;background:linear-gradient(90deg,rgba(8,19,32,.97),rgba(8,19,32,.76) 48%,rgba(8,19,32,.06)),url('https://images.unsplash.com/photo-1519741497674-611481863552?auto=format&fit=crop&w=1600&q=85') center/cover}
+    .hero-copy{max-width:610px;position:relative;z-index:1}
+    .hero .eyebrow{font-family:Georgia,serif;font-size:21px;margin:0 0 6px}
+    .hero h2{font: bold clamp(30px,3.5vw,48px)/1.1 Georgia,serif;margin:0 0 14px}
+    .hero h2 span{color:var(--gold)}
+    .hero p{font-size:17px;line-height:1.5;margin:0 0 22px}
+    .primary{border:0;border-radius:30px;background:#f5dba7;color:#152033;font-weight:700;padding:15px 23px}
+    .categories{display:grid;grid-template-columns:repeat(7,minmax(95px,1fr));gap:12px;margin:20px 0 28px}
+    .category{border:1px solid var(--line);background:var(--navy2);border-radius:17px;min-height:112px;color:#fff;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:10px;padding:12px 6px}
+    .category .emoji{font-size:30px;color:var(--pink)}
+    .category span:last-child{font-size:14px;text-align:center}
+    .section-heading{display:flex;align-items:end;justify-content:space-between;gap:12px;margin:0 4px 12px}
+    .section-heading h2{font: bold 30px Georgia,serif;margin:0 0 5px;color:var(--cream)}
+    .section-heading p{margin:0;color:#e0e4ea}
+    .link-btn{background:transparent;border:0;color:var(--gold);font-weight:700}
+    .cards{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:16px}
+    .card{background:var(--navy2);border:1px solid #1b2c40;border-radius:18px;padding:12px;min-width:0}
+    .preview{aspect-ratio:1/1;overflow:hidden;border-radius:12px;background:#eee}
+    .preview img{width:100%;height:100%;object-fit:cover;display:block}
+    .card h3{font-size:16px;margin:13px 2px 9px;line-height:1.3}
+    .price{color:#f4d58d;font-size:18px;font-weight:700;margin:0 2px 13px}
+    .buy{width:100%;border:0;border-radius:28px;background:var(--pink);color:#172033;padding:13px 8px;font-weight:700}
+    .note{color:var(--muted);font-size:13px;line-height:1.5;margin:22px 4px 0}
+    .toast{position:fixed;bottom:18px;left:50%;transform:translateX(-50%);background:var(--cream);color:var(--ink);padding:13px 18px;border-radius:14px;box-shadow:0 8px 30px #0007;display:none;z-index:10;max-width:90%;text-align:center}
+    @media(max-width:1100px){.cards{grid-template-columns:repeat(2,minmax(0,1fr))}.categories{grid-template-columns:repeat(4,minmax(0,1fr))}.topbar{padding-left:300px}}
+    @media(max-width:720px){
+      .layout{display:block}.topbar{height:auto;padding:12px 14px;flex-wrap:wrap}.brand-mobile{display:flex;align-items:center;gap:8px;font-weight:700}.topbar .tools{gap:12px}.layout aside{position:static;width:auto;padding:12px;background:var(--cream)}aside .brand,aside .quote{display:none}nav{grid-template-columns:repeat(3,minmax(0,1fr));gap:5px}nav button{padding:11px 6px;text-align:center;font-size:12px;border-radius:11px}.layout main{padding:12px}.hero{padding:26px 22px;min-height:260px;background-position:center}.hero h2{font-size:32px}.hero p{font-size:15px}.categories{grid-template-columns:repeat(2,minmax(0,1fr));gap:8px}.category{min-height:90px}.section-heading h2{font-size:25px}.section-heading p{font-size:13px}.cards{gap:10px}.contact-grid{grid-template-columns:1fr}.contact{padding:18px}.card{padding:8px}.card h3{font-size:14px}.price{font-size:16px}.buy{font-size:13px;padding:12px 4px}
+    }
+  </style>
 </head>
 <body>
-<header class="nav">
-  <div class="logo"><span>Kadi</span>Nova</div>
-  <nav>
-    <a href="#about">About</a>
-    <a href="#templates">Templates</a>
-    <a href="#how">How it works</a>
-    <a href="#pricing">Pricing</a>
-    <button class="outline" onclick="openBuilder()">Create invitation</button>
-  </nav>
-</header>
-
-<main>
-<section class="hero">
-  <div>
-    <p class="eyebrow">CREATE • INVITE • CELEBRATE</p>
-    <h1>Beautiful digital invitations, made simple.</h1>
-    <p class="lead">Create stylish invitations for weddings, birthdays, graduations and every special moment — then share them instantly.</p>
-    <div class="actions">
-      <button class="primary" onclick="openBuilder()">Create your invitation</button>
-      <a class="secondary" href="#templates">Explore templates</a>
+  <div class="topbar">
+    <div class="brand-mobile"><span class="logo">♡</span><span>KadiNova <small>Digital Invitations</small></span></div>
+    <div class="language" aria-label="Chagua lugha">
+      <button id="swBtn" class="active" onclick="setLanguage('sw')">🇹🇿 Kiswahili</button>
+      <button id="enBtn" onclick="setLanguage('en')">🇬🇧 English</button>
     </div>
+    <div class="tools" aria-label="Zana"><span title="Tafuta">⌕</span><span title="Akaunti">♙</span><span title="Kikapu">♧</span></div>
   </div>
-  <div class="hero-card">
-    <div class="mini-top">YOU'RE INVITED</div>
-    <h2>Sarah & Daniel</h2>
-    <p>Wedding Celebration</p>
-    <div class="line"></div>
-    <strong>Saturday · 4:00 PM</strong>
-    <small>Dar es Salaam, Tanzania</small>
+  <div class="layout">
+    <aside>
+      <div class="brand"><div class="logo">✉</div><div><h1>KadiNova</h1><small>Digital Invitations</small></div></div>
+      <nav>
+        <button class="active" data-sw="⌂  Nyumbani" data-en="⌂  Home">⌂  Nyumbani</button>
+        <button data-sw="▣  Kadi za Mwaliko" data-en="▣  Invitation Cards">▣  Kadi za Mwaliko</button>
+        <button data-sw="☑  Unda Mwaliko Wako" data-en="☑  Create Your Invitation">☑  Unda Mwaliko Wako</button>
+        <button data-sw="＄  Maelezo ya Bei" data-en="＄  Pricing">＄  Maelezo ya Bei</button>
+        <button data-sw="▱  Malipo" data-en="▱  Payments">▱  Malipo</button>
+        <button data-sw="☏  Wasiliana Nasi" data-en="☏  Contact Us">☏  Wasiliana Nasi</button>
+      </nav>
+      <div class="quote" data-sw="“Mialiko ya Kidijitali kwa matukio yako maalum”" data-en="“Digital invitations for your special moments”">“Mialiko ya Kidijitali kwa matukio yako maalum”</div>
+    </aside>
+    <main>
+      <section class="hero">
+        <div class="hero-copy">
+          <p class="eyebrow" data-sw="Karibu kwenye" data-en="Welcome to">Karibu kwenye</p>
+          <h2>KadiNova <span>Digital Invitations</span></h2>
+          <p data-sw="Tengeneza mialiko ya kipekee kwa matukio yako yote muhimu." data-en="Create beautiful invitations for all your important moments.">Tengeneza mialiko ya kipekee kwa matukio yako yote muhimu.</p>
+          <button class="primary" onclick="showMessage('browse')" data-sw="▧  Tazama Kadi za Mwaliko  →" data-en="▧  Browse Invitation Cards  →">▧  Tazama Kadi za Mwaliko  →</button>
+        </div>
+      </section>
+      <section class="categories" aria-label="Aina za matukio">
+        <button class="category" onclick="showMessage('wedding')"><span class="emoji">♡</span><span data-sw="Harusi" data-en="Wedding">Harusi</span></button>
+        <button class="category" onclick="showMessage('birthday')"><span class="emoji">🎂</span><span data-sw="Sherehe za Kuzaliwa" data-en="Birthday">Sherehe za Kuzaliwa</span></button>
+        <button class="category" onclick="showMessage('graduation')"><span class="emoji">🎓</span><span data-sw="Sherehe za Masomo" data-en="Graduation">Sherehe za Masomo</span></button>
+        <button class="category" onclick="showMessage('baby')"><span class="emoji">♡</span><span data-sw="Hafla za Mtoto" data-en="Baby Celebrations">Hafla za Mtoto</span></button>
+        <button class="category" onclick="showMessage('house')"><span class="emoji">⌂</span><span data-sw="Mila na Desturi" data-en="Cultural Events">Mila na Desturi</span></button>
+        <button class="category" onclick="showMessage('business')"><span class="emoji">▣</span><span data-sw="Matukio ya Biashara" data-en="Business Events">Matukio ya Biashara</span></button>
+        <button class="category" onclick="showMessage('more')"><span class="emoji">▦</span><span data-sw="Zaidi" data-en="More">Zaidi</span></button>
+      </section>
+      <section>
+        <div class="section-heading">
+          <div><h2 data-sw="Kadi Maarufu" data-en="Popular Cards">Kadi Maarufu</h2><p data-sw="Chagua muonekano unaokufaa kisha ubinafsishe kulingana na mahitaji yako." data-en="Choose a design you love and personalize it for your event.">Chagua muonekano unaokufaa kisha ubinafsishe kulingana na mahitaji yako.</p></div>
+          <button class="link-btn" onclick="showMessage('all')" data-sw="Tazama Zote  →" data-en="View All  →">Tazama Zote →</button>
+        </div>
+        <div class="cards">
+          <article class="card">
+            <div class="preview"><img src="https://images.unsplash.com/photo-1523438885200-e635ba2c371e?auto=format&fit=crop&w=700&q=85" alt="Kadi ya harusi ya kifahari"></div>
+            <h3 data-sw="Mwaliko wa Harusi – 01" data-en="Wedding Invitation – 01">Mwaliko wa Harusi – 01</h3><p class="price" data-price="15">$15.00</p><button class="buy" onclick="showMessage('buy')" data-sw="🛒  Nunua Sasa" data-en="🛒  Buy Now">🛒 Nunua Sasa</button>
+          </article>
+          <article class="card">
+            <div class="preview"><img src="https://images.unsplash.com/photo-1464366400600-7168b8af9bc3?auto=format&fit=crop&w=700&q=85" alt="Kadi ya sherehe ya kuzaliwa"></div>
+            <h3 data-sw="Mwaliko wa Kuzaliwa – 01" data-en="Birthday Invitation – 01">Mwaliko wa Kuzaliwa – 01</h3><p class="price" data-price="10">$10.00</p><button class="buy" onclick="showMessage('buy')" data-sw="🛒  Nunua Sasa" data-en="🛒  Buy Now">🛒 Nunua Sasa</button>
+          </article>
+          <article class="card">
+            <div class="preview"><img src="https://images.unsplash.com/photo-1523050854058-8df90110c9f1?auto=format&fit=crop&w=700&q=85" alt="Kadi ya mahafali"></div>
+            <h3 data-sw="Mwaliko wa Masomo – 01" data-en="Graduation Invitation – 01">Mwaliko wa Masomo – 01</h3><p class="price" data-price="10">$10.00</p><button class="buy" onclick="showMessage('buy')" data-sw="🛒  Nunua Sasa" data-en="🛒  Buy Now">🛒 Nunua Sasa</button>
+          </article>
+          <article class="card">
+            <div class="preview"><img src="https://images.unsplash.com/photo-1511895426328-dc8714191300?auto=format&fit=crop&w=700&q=85" alt="Kadi ya hafla ya mtoto"></div>
+            <h3 data-sw="Mwaliko wa Mtoto – 01" data-en="Baby Celebration – 01">Mwaliko wa Mtoto – 01</h3><p class="price" data-price="10">$10.00</p><button class="buy" onclick="showMessage('buy')" data-sw="🛒  Nunua Sasa" data-en="🛒  Buy Now">🛒 Nunua Sasa</button>
+          </article>
+        </div>
+      </section>
+      <p class="note" data-sw="Picha za kadi hupakiwa kutoka mtandaoni. Bei ni mfano wa muundo tu; malipo ya moja kwa moja bado hayajaunganishwa." data-en="Card images load from the internet. Prices are sample display values; live payments are not connected yet.">Picha za kadi hupakiwa kutoka mtandaoni. Bei ni mfano wa muundo tu; malipo ya moja kwa moja bado hayajaunganishwa.</p>
+      <section class="contact" id="contact">
+        <h2 data-sw="Wasiliana Nasi" data-en="Contact Us">Wasiliana Nasi</h2>
+        <p data-sw="Una swali au unahitaji kadi ya mwaliko maalum? Wasiliana na mmiliki wa KadiNova." data-en="Have a question or need a custom invitation? Contact the owner of KadiNova.">Una swali au unahitaji kadi ya mwaliko maalum? Wasiliana na mmiliki wa KadiNova.</p>
+        <p class="owner"><strong data-sw="Mmiliki:" data-en="Owner:">Mmiliki:</strong> Philemon Abraham Simkang</p>
+        <div class="contact-grid">
+          <div class="contact-item"><strong data-sw="Barua pepe" data-en="Email">Barua pepe</strong><a href="mailto:phicharyknowledge@gmail.com">phicharyknowledge@gmail.com</a></div>
+          <div class="contact-item"><strong data-sw="Simu" data-en="Phone">Simu</strong><a href="tel:+255656025211">+255 656 025 211</a></div>
+          <div class="contact-item"><strong>WhatsApp</strong><a href="https://wa.me/255656025211" target="_blank" rel="noopener noreferrer">+255 656 025 211 · <span data-sw="Tuma ujumbe" data-en="Message us">Tuma ujumbe</span></a></div>
+        </div>
+      </section>
+    </main>
   </div>
-</section>
-
-
-<section id="about" class="section about-section">
-  <p class="eyebrow">ABOUT KADINOVA</p>
-  <h2>Beautiful invitations for meaningful moments</h2>
-  <div class="about-grid">
-    <div>
-      <p class="lead">KadiNova is a digital invitations platform designed to make creating, sharing and managing invitations simple, elegant and modern.</p>
-      <p>We are building KadiNova for weddings, birthdays, engagements, baby showers, graduations and other special events.</p>
-    </div>
-    <div class="about-card">
-      <span>WEBSITE OWNER</span>
-      <h3>Philemon Abraham Simkanga</h3>
-      <p>KadiNova Digital Invitations & Events</p>
-    </div>
-  </div>
-
-  <div class="contact-card">
-    <div>
-      <span class="contact-label">CONTACT</span>
-      <h3>Get in touch with KadiNova</h3>
-      <p>For general enquiries, partnerships and customer support, use the contact details provided on the official KadiNova website.</p>
-    </div>
-    <div class="contact-placeholder">
-      <strong>Email</strong>
-      <span>Coming soon</span>
-      <strong>Phone / WhatsApp</strong>
-      <span>Coming soon</span>
-    </div>
-  </div>
-</section>
-
-<section id="templates" class="section">
-  <p class="eyebrow">OUR TEMPLATES</p>
-  <h2>Choose a style you love</h2>
-  <div class="grid">
-    <article class="template wedding"><div>WEDDING</div><h3>Elegant Love</h3><button onclick="selectTemplate('Elegant Love')">Use template</button></article>
-    <article class="template birthday"><div>BIRTHDAY</div><h3>Birthday Celebration</h3><button onclick="selectTemplate('Birthday Celebration')">Use template</button></article>
-    <article class="template graduation"><div>GRADUATION</div><h3>Class of 2026</h3><button onclick="selectTemplate('Class of 2026')">Use template</button></article>
-    <article class="template event"><div>EVENT</div><h3>Modern Event</h3><button onclick="selectTemplate('Modern Event')">Use template</button></article>
-  </div>
-</section>
-
-<section id="how" class="section light">
-  <p class="eyebrow">HOW IT WORKS</p>
-  <h2>From idea to invitation in minutes</h2>
-  <div class="steps">
-    <div><b>01</b><h3>Choose</h3><p>Select a beautiful template.</p></div>
-    <div><b>02</b><h3>Customize</h3><p>Add your event details.</p></div>
-    <div><b>03</b><h3>Share</h3><p>Send your invitation digitally.</p></div>
-  </div>
-</section>
-
-<section id="pricing" class="section">
-  <p class="eyebrow">PRICING</p>
-  <h2>Start free, upgrade when you need more</h2>
-  <div class="prices">
-    <div><h3>Free</h3><p class="price">TZS 0</p><p>Basic templates<br>Digital sharing</p><button class="outline">Start free</button></div>
-    <div class="featured"><h3>Premium</h3><p class="price">TZS 5,000+</p><p>Premium designs<br>RSVP features<br>More customization</p><button class="primary" onclick="openBuilder()">Create now</button></div>
-    <div><h3>VIP</h3><p class="price">Custom</p><p>Exclusive designs<br>Advanced features<br>Priority support</p><button class="outline">Contact us</button></div>
-  </div>
-</section>
-</main>
-
-<div id="builder" class="modal">
-  <div class="modal-box">
-    <button class="close" onclick="closeBuilder()">×</button>
-    <p class="eyebrow">INVITATION BUILDER</p>
-    <h2>Create your invitation</h2>
-    <label>Event type
-      <select id="eventType"><option>Wedding</option><option>Birthday</option><option>Graduation</option><option>Engagement</option><option>Other event</option></select>
-    </label>
-    <label>Host / Name <input id="host" placeholder="e.g. Sarah & Daniel"></label>
-    <label>Event date <input id="date" type="date"></label>
-    <label>Location <input id="location" placeholder="e.g. Dar es Salaam"></label>
-    <button class="primary full" onclick="previewInvite()">Preview invitation</button>
-    <div id="preview"></div>
-  </div>
-</div>
-
-<footer>
-  <div class="logo"><span>Kadi</span>Nova</div>
-  <p>Digital invitations for life's special moments.</p>
-  <div class="owner-info">
-    <strong>Website Project Owner</strong>
-    <span>Philemon Abraham Simkanga</span>
-  </div>
-  <small>© 2026 KadiNova. All rights reserved. KadiNova is owned by Philemon Abraham Simkanga. This website is currently a prototype.</small>
-</footer>
-<script src="script.js"></script>
+  <div class="toast" id="toast" role="status"></div>
+  <script>
+    let currentLanguage = 'sw';
+    let currency = 'USD';
+    const rates = {USD: 1, TZS: 2600}; // Example display rate only; update with current exchange rate before launch.
+    function setLanguage(lang){
+      currentLanguage = lang;
+      document.documentElement.lang = lang;
+      document.querySelectorAll('[data-sw][data-en]').forEach(el=>{
+        const val = el.dataset[lang];
+        if(val !== undefined) el.textContent = val;
+      });
+      document.getElementById('swBtn').classList.toggle('active', lang==='sw');
+      document.getElementById('enBtn').classList.toggle('active', lang==='en');
+      updatePrices();
+    }
+    function updatePrices(){
+      document.querySelectorAll('[data-price]').forEach(el=>{
+        const amount = Number(el.dataset.price);
+        el.textContent = currency==='USD' ? '$'+amount.toFixed(2) : 'TSh '+Math.round(amount*rates.TZS).toLocaleString('en-US');
+      });
+    }
+    function showMessage(kind){
+      const sw = {
+        browse:'Karibu! Kadi za mialiko zinaonekana hapa chini.',
+        wedding:'Umechagua kategoria ya harusi.',
+        birthday:'Umechagua kategoria ya sherehe za kuzaliwa.',
+        graduation:'Umechagua kategoria ya mahafali.',
+        baby:'Umechagua kategoria ya hafla za mtoto.',
+        house:'Umechagua kategoria ya mila na desturi.',
+        business:'Umechagua kategoria ya matukio ya biashara.',
+        more:'Kategoria nyingine zitaongezwa baadaye.',
+        all:'Kwa sasa hizi ndizo kadi za mfano zilizopo.',
+        buy:'Asante! Mfumo wa malipo utaunganishwa baada ya kuchagua njia ya malipo.'
+      };
+      const en = {
+        browse:'Welcome! Browse the invitation cards below.',
+        wedding:'Wedding category selected.',
+        birthday:'Birthday category selected.',
+        graduation:'Graduation category selected.',
+        baby:'Baby celebration category selected.',
+        house:'Cultural events category selected.',
+        business:'Business events category selected.',
+        more:'More categories will be added later.',
+        all:'These are the sample cards currently available.',
+        buy:'Thank you! A payment provider will be connected after the payment method is chosen.'
+      };
+      const toast=document.getElementById('toast');
+      toast.textContent=(currentLanguage==='sw'?sw:en)[kind]||'';
+      toast.style.display='block';
+      window.clearTimeout(window.__toastTimer);
+      window.__toastTimer=window.setTimeout(()=>toast.style.display='none',3200);
+    }
+    // Long-press not needed; simple tap on the currency label area can switch currency.
+    document.querySelector('.tools span:last-child').addEventListener('click',()=>{
+      currency=currency==='USD'?'TZS':'USD'; updatePrices();
+      const toast=document.getElementById('toast');
+      toast.textContent=currentLanguage==='sw'?'Sarafu imebadilishwa kuwa '+currency+'.':'Currency changed to '+currency+'.';
+      toast.style.display='block'; window.clearTimeout(window.__toastTimer);
+      window.__toastTimer=window.setTimeout(()=>toast.style.display='none',2600);
+    });
+  </script>
 </body>
 </html>
