@@ -4,75 +4,25 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta name="theme-color" content="#0b1727">
-  <title>KadiNova | Digital Invitations</title>
-  <style>
-    :root{
-      --navy:#0b1727; --navy2:#101f32; --cream:#f6efe3; --gold:#d7ad62;
-      --pink:#f4a9bb; --ink:#101827; --muted:#b8c2d0; --line:#29394c;
-    }
-    *{box-sizing:border-box}
-    body{margin:0;background:var(--navy);color:#f8f5ef;font-family:Arial,Helvetica,sans-serif}
-    button,select{font:inherit}
-    button{cursor:pointer}
-    .topbar{height:78px;display:flex;align-items:center;justify-content:space-between;padding:12px 24px 12px 300px;border-bottom:1px solid var(--line);gap:16px}
-    .brand-mobile{display:none}
-    .language{display:flex;gap:6px;background:#17263a;padding:5px;border-radius:28px}
-    .language button{border:0;border-radius:24px;padding:10px 15px;background:transparent;color:#fff}
-    .language button.active{background:#f5dba7;color:#142033;font-weight:700}
-    .tools{display:flex;gap:20px;font-size:23px}
-    .layout{display:grid;grid-template-columns:284px minmax(0,1fr);min-height:calc(100vh - 78px)}
-    aside{background:var(--cream);color:var(--ink);padding:20px 16px;display:flex;flex-direction:column;position:fixed;top:0;bottom:0;width:284px}
-    .brand{display:flex;align-items:center;gap:12px;padding:2px 20px 26px}
-    .logo{font-size:36px;color:#b88937}
-    .brand h1{font-family:Georgia,serif;font-size:30px;margin:0}
-    .brand small{display:block;font-size:14px;color:#536071;margin-top:2px}
-    nav{display:grid;gap:8px}
-    nav button{border:0;background:transparent;color:#172033;text-align:left;padding:17px 18px;border-radius:16px;font-size:16px}
-    nav button.active{background:#dfbd78;font-weight:700}
-    .quote{margin:auto 18px 18px;text-align:center;color:#354052;font-family:Georgia,serif;font-style:italic;line-height:1.65;font-size:19px}
-    main{grid-column:2;padding:18px 20px 36px;min-width:0}
-    .hero{min-height:260px;border:1px solid #c9a45f;border-radius:20px;overflow:hidden;position:relative;display:flex;align-items:center;padding:36px 42px;background:linear-gradient(90deg,rgba(8,19,32,.97),rgba(8,19,32,.76) 48%,rgba(8,19,32,.06)),url('https://images.unsplash.com/photo-1519741497674-611481863552?auto=format&fit=crop&w=1600&q=85') center/cover}
-    .hero-copy{max-width:610px;position:relative;z-index:1}
-    .hero .eyebrow{font-family:Georgia,serif;font-size:21px;margin:0 0 6px}
-    .hero h2{font: bold clamp(30px,3.5vw,48px)/1.1 Georgia,serif;margin:0 0 14px}
-    .hero h2 span{color:var(--gold)}
-    .hero p{font-size:17px;line-height:1.5;margin:0 0 22px}
-    .primary{border:0;border-radius:30px;background:#f5dba7;color:#152033;font-weight:700;padding:15px 23px}
-    .categories{display:grid;grid-template-columns:repeat(7,minmax(95px,1fr));gap:12px;margin:20px 0 28px}
-    .category{border:1px solid var(--line);background:var(--navy2);border-radius:17px;min-height:112px;color:#fff;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:10px;padding:12px 6px}
-    .category .emoji{font-size:30px;color:var(--pink)}
-    .category span:last-child{font-size:14px;text-align:center}
-    .section-heading{display:flex;align-items:end;justify-content:space-between;gap:12px;margin:0 4px 12px}
-    .section-heading h2{font: bold 30px Georgia,serif;margin:0 0 5px;color:var(--cream)}
-    .section-heading p{margin:0;color:#e0e4ea}
-    .link-btn{background:transparent;border:0;color:var(--gold);font-weight:700}
-    .cards{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:16px}
-    .card{background:var(--navy2);border:1px solid #1b2c40;border-radius:18px;padding:12px;min-width:0}
-    .preview{aspect-ratio:1/1;overflow:hidden;border-radius:12px;background:#eee}
-    .preview img{width:100%;height:100%;object-fit:cover;display:block}
-    .card h3{font-size:16px;margin:13px 2px 9px;line-height:1.3}
-    .price{color:#f4d58d;font-size:18px;font-weight:700;margin:0 2px 13px}
-    .buy{width:100%;border:0;border-radius:28px;background:var(--pink);color:#172033;padding:13px 8px;font-weight:700}
-    .note{color:var(--muted);font-size:13px;line-height:1.5;margin:22px 4px 0}
-    .toast{position:fixed;bottom:18px;left:50%;transform:translateX(-50%);background:var(--cream);color:var(--ink);padding:13px 18px;border-radius:14px;box-shadow:0 8px 30px #0007;display:none;z-index:10;max-width:90%;text-align:center}
-    @media(max-width:1100px){.cards{grid-template-columns:repeat(2,minmax(0,1fr))}.categories{grid-template-columns:repeat(4,minmax(0,1fr))}.topbar{padding-left:300px}}
-    @media(max-width:720px){
-      .layout{display:block}.topbar{height:auto;padding:12px 14px;flex-wrap:wrap}.brand-mobile{display:flex;align-items:center;gap:8px;font-weight:700}.topbar .tools{gap:12px}.layout aside{position:static;width:auto;padding:12px;background:var(--cream)}aside .brand,aside .quote{display:none}nav{grid-template-columns:repeat(3,minmax(0,1fr));gap:5px}nav button{padding:11px 6px;text-align:center;font-size:12px;border-radius:11px}.layout main{padding:12px}.hero{padding:26px 22px;min-height:260px;background-position:center}.hero h2{font-size:32px}.hero p{font-size:15px}.categories{grid-template-columns:repeat(2,minmax(0,1fr));gap:8px}.category{min-height:90px}.section-heading h2{font-size:25px}.section-heading p{font-size:13px}.cards{gap:10px}.contact-grid{grid-template-columns:1fr}.contact{padding:18px}.card{padding:8px}.card h3{font-size:14px}.price{font-size:16px}.buy{font-size:13px;padding:12px 4px}
-    }
-  </style>
+  <title>Bill KadiNova | Digital Invitations</title>
+  <link rel="stylesheet" href="style.css">
 </head>
 <body>
   <div class="topbar">
-    <div class="brand-mobile"><span class="logo">♡</span><span>KadiNova <small>Digital Invitations</small></span></div>
+    <div class="brand-mobile"><span class="logo">♡</span><span>Bill KadiNova <small>Digital Invitations</small></span></div>
     <div class="language" aria-label="Chagua lugha">
       <button id="swBtn" class="active" onclick="setLanguage('sw')">🇹🇿 Kiswahili</button>
       <button id="enBtn" onclick="setLanguage('en')">🇬🇧 English</button>
     </div>
-    <div class="tools" aria-label="Zana"><span title="Tafuta">⌕</span><span title="Akaunti">♙</span><span title="Kikapu">♧</span></div>
+    <div class="tools" aria-label="Zana">
+      <span title="Tafuta">⌕</span>
+      <button type="button" id="openAuth" class="account-trigger" title="Akaunti" data-sw="♙ Ingia / Sajili" data-en="♙ Sign in / Register">♙ Ingia / Sajili</button>
+      <span title="Kikapu">♧</span>
+    </div>
   </div>
   <div class="layout">
     <aside>
-      <div class="brand"><div class="logo">✉</div><div><h1>KadiNova</h1><small>Digital Invitations</small></div></div>
+      <div class="brand"><div class="logo">✉</div><div><h1>Bill KadiNova</h1><small>Digital Invitations</small></div></div>
       <nav>
         <button class="active" data-sw="⌂  Nyumbani" data-en="⌂  Home">⌂  Nyumbani</button>
         <button data-sw="▣  Kadi za Mwaliko" data-en="▣  Invitation Cards">▣  Kadi za Mwaliko</button>
@@ -87,7 +37,7 @@
       <section class="hero">
         <div class="hero-copy">
           <p class="eyebrow" data-sw="Karibu kwenye" data-en="Welcome to">Karibu kwenye</p>
-          <h2>KadiNova <span>Digital Invitations</span></h2>
+          <h2>Bill KadiNova <span>Digital Invitations</span></h2>
           <p data-sw="Tengeneza mialiko ya kipekee kwa matukio yako yote muhimu." data-en="Create beautiful invitations for all your important moments.">Tengeneza mialiko ya kipekee kwa matukio yako yote muhimu.</p>
           <button class="primary" onclick="showMessage('browse')" data-sw="▧  Tazama Kadi za Mwaliko  →" data-en="▧  Browse Invitation Cards  →">▧  Tazama Kadi za Mwaliko  →</button>
         </div>
@@ -107,29 +57,29 @@
           <button class="link-btn" onclick="showMessage('all')" data-sw="Tazama Zote  →" data-en="View All  →">Tazama Zote →</button>
         </div>
         <div class="cards">
-          <article class="card">
-            <div class="preview"><img src="https://images.unsplash.com/photo-1523438885200-e635ba2c371e?auto=format&fit=crop&w=700&q=85" alt="Kadi ya harusi ya kifahari"></div>
+          <article class="card" tabindex="0" role="button" aria-label="Fungua maelezo ya kadi">
+            <div class="preview"><img loading="lazy" src="https://images.unsplash.com/photo-1523438885200-e635ba2c371e?auto=format&fit=crop&w=700&q=85" alt="Kadi ya harusi ya kifahari"></div>
             <h3 data-sw="Mwaliko wa Harusi – 01" data-en="Wedding Invitation – 01">Mwaliko wa Harusi – 01</h3><p class="price" data-price="15">$15.00</p><button class="buy" onclick="showMessage('buy')" data-sw="🛒  Nunua Sasa" data-en="🛒  Buy Now">🛒 Nunua Sasa</button>
           </article>
-          <article class="card">
-            <div class="preview"><img src="https://images.unsplash.com/photo-1464366400600-7168b8af9bc3?auto=format&fit=crop&w=700&q=85" alt="Kadi ya sherehe ya kuzaliwa"></div>
+          <article class="card" tabindex="0" role="button" aria-label="Fungua maelezo ya kadi">
+            <div class="preview"><img loading="lazy" src="https://images.unsplash.com/photo-1464366400600-7168b8af9bc3?auto=format&fit=crop&w=700&q=85" alt="Kadi ya sherehe ya kuzaliwa"></div>
             <h3 data-sw="Mwaliko wa Kuzaliwa – 01" data-en="Birthday Invitation – 01">Mwaliko wa Kuzaliwa – 01</h3><p class="price" data-price="10">$10.00</p><button class="buy" onclick="showMessage('buy')" data-sw="🛒  Nunua Sasa" data-en="🛒  Buy Now">🛒 Nunua Sasa</button>
           </article>
-          <article class="card">
-            <div class="preview"><img src="https://images.unsplash.com/photo-1523050854058-8df90110c9f1?auto=format&fit=crop&w=700&q=85" alt="Kadi ya mahafali"></div>
+          <article class="card" tabindex="0" role="button" aria-label="Fungua maelezo ya kadi">
+            <div class="preview"><img loading="lazy" src="https://images.unsplash.com/photo-1523050854058-8df90110c9f1?auto=format&fit=crop&w=700&q=85" alt="Kadi ya mahafali"></div>
             <h3 data-sw="Mwaliko wa Masomo – 01" data-en="Graduation Invitation – 01">Mwaliko wa Masomo – 01</h3><p class="price" data-price="10">$10.00</p><button class="buy" onclick="showMessage('buy')" data-sw="🛒  Nunua Sasa" data-en="🛒  Buy Now">🛒 Nunua Sasa</button>
           </article>
-          <article class="card">
-            <div class="preview"><img src="https://images.unsplash.com/photo-1511895426328-dc8714191300?auto=format&fit=crop&w=700&q=85" alt="Kadi ya hafla ya mtoto"></div>
+          <article class="card" tabindex="0" role="button" aria-label="Fungua maelezo ya kadi">
+            <div class="preview"><img loading="lazy" src="https://images.unsplash.com/photo-1511895426328-dc8714191300?auto=format&fit=crop&w=700&q=85" alt="Kadi ya hafla ya mtoto"></div>
             <h3 data-sw="Mwaliko wa Mtoto – 01" data-en="Baby Celebration – 01">Mwaliko wa Mtoto – 01</h3><p class="price" data-price="10">$10.00</p><button class="buy" onclick="showMessage('buy')" data-sw="🛒  Nunua Sasa" data-en="🛒  Buy Now">🛒 Nunua Sasa</button>
           </article>
         </div>
       </section>
-      <p class="note" data-sw="Picha za kadi hupakiwa kutoka mtandaoni. Bei ni mfano wa muundo tu; malipo ya moja kwa moja bado hayajaunganishwa." data-en="Card images load from the internet. Prices are sample display values; live payments are not connected yet.">Picha za kadi hupakiwa kutoka mtandaoni. Bei ni mfano wa muundo tu; malipo ya moja kwa moja bado hayajaunganishwa.</p>
+      <p class="note" data-sw="Picha za kadi hupakiwa kutoka mtandaoni; ikiwa picha haitapatikana, muundo mbadala utaonekana. Bei ni mfano tu; malipo halisi bado hayajaunganishwa." data-en="Card images load from the internet. Prices are sample display values; live payments are not connected yet.">Picha za kadi hupakiwa kutoka mtandaoni; ikiwa picha haitapatikana, muundo mbadala utaonekana. Bei ni mfano tu; malipo halisi bado hayajaunganishwa.</p>
       <section class="contact" id="contact">
         <h2 data-sw="Wasiliana Nasi" data-en="Contact Us">Wasiliana Nasi</h2>
-        <p data-sw="Una swali au unahitaji kadi ya mwaliko maalum? Wasiliana na mmiliki wa KadiNova." data-en="Have a question or need a custom invitation? Contact the owner of KadiNova.">Una swali au unahitaji kadi ya mwaliko maalum? Wasiliana na mmiliki wa KadiNova.</p>
-        <p class="owner"><strong data-sw="Mmiliki:" data-en="Owner:">Mmiliki:</strong> Philemon Abraham Simkang</p>
+        <p data-sw="Una swali au unahitaji kadi ya mwaliko maalum? Wasiliana na mmiliki wa KadiNova." data-en="Have a question or need a custom invitation? Contact the owner of KadiNova.">Una swali au unahitaji kadi ya mwaliko maalum? Wasiliana na mmiliki wa Bill KadiNova.</p>
+        <p class="owner"><strong data-sw="Mmiliki:" data-en="Owner:">Mmiliki:</strong> Philemon Abraham Simkanga</p>
         <div class="contact-grid">
           <div class="contact-item"><strong data-sw="Barua pepe" data-en="Email">Barua pepe</strong><a href="mailto:phicharyknowledge@gmail.com">phicharyknowledge@gmail.com</a></div>
           <div class="contact-item"><strong data-sw="Simu" data-en="Phone">Simu</strong><a href="tel:+255656025211">+255 656 025 211</a></div>
@@ -138,67 +88,58 @@
       </section>
     </main>
   </div>
+
+  <div class="modal-backdrop" id="cardModal" hidden>
+    <section class="modal" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
+      <button class="modal-close" type="button" id="closeModal" aria-label="Funga">×</button>
+      <p class="modal-kicker" data-sw="KADI YA MWALIKO" data-en="INVITATION CARD">KADI YA MWALIKO</p>
+      <h2 id="modalTitle">Kadi ya Mwaliko</h2>
+      <p id="modalDescription" class="modal-description">Chagua muundo na ujaze taarifa za tukio lako.</p>
+      <form id="inviteForm">
+        <label><span data-sw="Jina la mwenye mwaliko / tukio" data-en="Host or event name">Jina la mwenye mwaliko / tukio</span><input name="eventName" required maxlength="80" placeholder="Mf. Asha na Juma"></label>
+        <div class="form-row"><label><span data-sw="Tarehe ya tukio" data-en="Event date">Tarehe ya tukio</span><input name="eventDate" type="date" required></label><label><span data-sw="Muda" data-en="Time">Muda</span><input name="eventTime" type="time"></label></div>
+        <label><span data-sw="Mahali pa tukio" data-en="Event venue">Mahali pa tukio</span><input name="venue" required maxlength="120" placeholder="Mf. Dar es Salaam"></label>
+        <label><span data-sw="Ujumbe wa ziada (si lazima)" data-en="Extra message (optional)">Ujumbe wa ziada (si lazima)</span><textarea name="message" rows="3" maxlength="250" placeholder="Karibu kushiriki nasi..."></textarea></label>
+        <div class="modal-actions"><button class="primary" type="submit" data-sw="Tengeneza muhtasari" data-en="Create preview">Tengeneza muhtasari</button><button class="secondary" type="button" id="shareInvite" data-sw="Shiriki muhtasari" data-en="Share preview">Shiriki muhtasari</button></div>
+      </form>
+      <div id="invitePreview" class="invite-preview" hidden></div>
+      <button class="secondary flip-preview-btn" type="button" id="flipPreview" hidden data-sw="↻ Geuza kadi" data-en="↻ Flip card">↻ Geuza kadi</button>
+      <p class="modal-note" data-sw="Hii ni hatua ya majaribio. Malipo ya moja kwa moja bado hayajaunganishwa." data-en="This is a test flow. Live payments are not connected yet.">Hii ni hatua ya majaribio. Malipo ya moja kwa moja bado hayajaunganishwa.</p>
+    </section>
+  </div>
+
+  <div class="modal-backdrop" id="paymentModal" hidden>
+    <section class="modal payment-modal" role="dialog" aria-modal="true" aria-labelledby="paymentTitle">
+      <button class="modal-close" type="button" id="closePayment" aria-label="Funga">×</button>
+      <p class="modal-kicker" data-sw="MALIPO" data-en="PAYMENTS">MALIPO</p><h2 id="paymentTitle" data-sw="Chagua njia ya malipo" data-en="Choose a payment method">Chagua njia ya malipo</h2>
+      <p data-sw="Unaweza kuchagua njia kwa ajili ya kujaribu mwonekano. Malipo halisi bado hayajatumika kwenye tovuti." data-en="Choose a method to test the interface. Real payments are not enabled on this website yet.">Unaweza kuchagua njia kwa ajili ya kujaribu mwonekano. Malipo halisi bado hayajatumika kwenye tovuti.</p>
+      <div class="payment-options"><button type="button" data-payment="M-Pesa">📱 M-Pesa</button><button type="button" data-payment="Airtel Money">📱 Airtel Money</button><button type="button" data-payment="Mixx by Yas">📱 Mixx by Yas</button><button type="button" data-payment="Bank">🏦 Benki</button></div>
+      <p id="paymentFeedback" class="payment-feedback" aria-live="polite"></p>
+    </section>
+  </div>
+
+  <div class="modal-backdrop" id="authModal" hidden>
+    <section class="modal auth-modal" role="dialog" aria-modal="true" aria-labelledby="authTitle">
+      <button class="modal-close" type="button" id="closeAuth" aria-label="Funga">×</button>
+      <p class="modal-kicker" data-sw="AKAUNTI YA BILL KADINOVA" data-en="BILL KADINOVA ACCOUNT">AKAUNTI YA BILL KADINOVA</p>
+      <h2 id="authTitle" data-sw="Karibu Bill KadiNova" data-en="Welcome to Bill KadiNova">Karibu Bill KadiNova</h2>
+      <p class="auth-subtitle" data-sw="Sajili akaunti ili uweze kuhifadhi na kusimamia mialiko yako." data-en="Create an account to save and manage your invitations.">Sajili akaunti ili uweze kuhifadhi na kusimamia mialiko yako.</p>
+      <div class="auth-tabs"><button type="button" class="active" id="registerTab" data-sw="Sajili" data-en="Register">Sajili</button><button type="button" id="loginTab" data-sw="Ingia" data-en="Sign in">Ingia</button></div>
+      <form id="authForm" class="auth-form">
+        <label id="fullNameWrap"><span data-sw="Jina kamili" data-en="Full name">Jina kamili</span><input id="authName" name="name" autocomplete="name" maxlength="100" required placeholder="Philemon Abraham Simkanga"></label>
+        <label><span data-sw="Barua pepe" data-en="Email address">Barua pepe</span><input id="authEmail" name="email" type="email" autocomplete="email" required maxlength="254" placeholder="jina@example.com"></label>
+        <label><span data-sw="Nenosiri (angalau herufi 8)" data-en="Password (at least 8 characters)">Nenosiri (angalau herufi 8)</span><input id="authPassword" name="password" type="password" autocomplete="new-password" minlength="8" required placeholder="••••••••"></label>
+        <button class="primary auth-submit" id="authSubmit" type="submit" data-sw="Tengeneza akaunti" data-en="Create account">Tengeneza akaunti</button>
+        <button class="text-action" id="resetPassword" type="button" hidden data-sw="Umesahau nenosiri? Tuma kiungo cha kubadilisha" data-en="Forgot password? Send reset link">Umesahau nenosiri? Tuma kiungo cha kubadilisha</button>
+        <p id="authStatus" class="auth-status" role="status" aria-live="polite"></p>
+      </form>
+      <p class="modal-note" data-sw="Nenosiri hushughulikiwa na Firebase Authentication; usiliweke kwenye faili au kulishiriki na mtu." data-en="Passwords are handled by Firebase Authentication; never store them in website files or share them.">Nenosiri hushughulikiwa na Firebase Authentication; usiliweke kwenye faili au kulishiriki na mtu.</p>
+    </section>
+  </div>
+
   <div class="toast" id="toast" role="status"></div>
-  <script>
-    let currentLanguage = 'sw';
-    let currency = 'USD';
-    const rates = {USD: 1, TZS: 2600}; // Example display rate only; update with current exchange rate before launch.
-    function setLanguage(lang){
-      currentLanguage = lang;
-      document.documentElement.lang = lang;
-      document.querySelectorAll('[data-sw][data-en]').forEach(el=>{
-        const val = el.dataset[lang];
-        if(val !== undefined) el.textContent = val;
-      });
-      document.getElementById('swBtn').classList.toggle('active', lang==='sw');
-      document.getElementById('enBtn').classList.toggle('active', lang==='en');
-      updatePrices();
-    }
-    function updatePrices(){
-      document.querySelectorAll('[data-price]').forEach(el=>{
-        const amount = Number(el.dataset.price);
-        el.textContent = currency==='USD' ? '$'+amount.toFixed(2) : 'TSh '+Math.round(amount*rates.TZS).toLocaleString('en-US');
-      });
-    }
-    function showMessage(kind){
-      const sw = {
-        browse:'Karibu! Kadi za mialiko zinaonekana hapa chini.',
-        wedding:'Umechagua kategoria ya harusi.',
-        birthday:'Umechagua kategoria ya sherehe za kuzaliwa.',
-        graduation:'Umechagua kategoria ya mahafali.',
-        baby:'Umechagua kategoria ya hafla za mtoto.',
-        house:'Umechagua kategoria ya mila na desturi.',
-        business:'Umechagua kategoria ya matukio ya biashara.',
-        more:'Kategoria nyingine zitaongezwa baadaye.',
-        all:'Kwa sasa hizi ndizo kadi za mfano zilizopo.',
-        buy:'Asante! Mfumo wa malipo utaunganishwa baada ya kuchagua njia ya malipo.'
-      };
-      const en = {
-        browse:'Welcome! Browse the invitation cards below.',
-        wedding:'Wedding category selected.',
-        birthday:'Birthday category selected.',
-        graduation:'Graduation category selected.',
-        baby:'Baby celebration category selected.',
-        house:'Cultural events category selected.',
-        business:'Business events category selected.',
-        more:'More categories will be added later.',
-        all:'These are the sample cards currently available.',
-        buy:'Thank you! A payment provider will be connected after the payment method is chosen.'
-      };
-      const toast=document.getElementById('toast');
-      toast.textContent=(currentLanguage==='sw'?sw:en)[kind]||'';
-      toast.style.display='block';
-      window.clearTimeout(window.__toastTimer);
-      window.__toastTimer=window.setTimeout(()=>toast.style.display='none',3200);
-    }
-    // Long-press not needed; simple tap on the currency label area can switch currency.
-    document.querySelector('.tools span:last-child').addEventListener('click',()=>{
-      currency=currency==='USD'?'TZS':'USD'; updatePrices();
-      const toast=document.getElementById('toast');
-      toast.textContent=currentLanguage==='sw'?'Sarafu imebadilishwa kuwa '+currency+'.':'Currency changed to '+currency+'.';
-      toast.style.display='block'; window.clearTimeout(window.__toastTimer);
-      window.__toastTimer=window.setTimeout(()=>toast.style.display='none',2600);
-    });
-  </script>
+
+  <script src="script.js" defer></script>
+  <script type="module" src="firebase-auth.js"></script>
 </body>
 </html>
